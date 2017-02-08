@@ -1,0 +1,47 @@
+{
+  "name": "@akashic-extension/akashic-tile",
+  "version": "0.1.1",
+  "description": "Tilemap library for Akashic Engine",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "npm run build && npm run doc",
+    "build": "gulp",
+    "doc": "gulp typedoc",
+    "lint": "gulp lint lint-md",
+    "test": "gulp test lint lint-md"
+  },
+  "author": "DWANGO Co., Ltd.",
+  "license": "MIT",
+  "devDependencies": {
+    "@akashic/akashic-engine": "~1.10.1",
+    "del": "^1.1.1",
+    "dts-bundle": "~0.3.0",
+    "gulp": "^3.8.11",
+    "gulp-istanbul": "~0.6.0",
+    "gulp-jasmine": "~2.0.0",
+    "gulp-shell": "^0.5.1",
+    "gulp-tslint": "^2.0.0",
+    "gulp-typedoc": "^1.1.0",
+    "jasmine": "~2.1.1",
+    "jasmine-reporters": "~2.0.4",
+    "jasmine-terminal-reporter": "~0.9.1",
+    "mdast": "~2.0.0",
+    "mdast-lint": "~1.1.1",
+    "typescript": "1.7.5"
+  },
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "doc",
+    "sample",
+    "package.json",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akashic-games/akashic-tile.git"
+  },
+  "publishConfig": {
+    "@akashic-extension:registry": "http://registry.npmjs.org/"
+  }
+}

@@ -1,0 +1,56 @@
+{
+	"width": 320,
+	"height": 320,
+	"fps": 30,
+	"assets": {
+		"mainScene": {
+			"type": "script",
+			"path": "script/mainScene.js",
+			"global": true
+		},
+		"map": {
+			"type": "image",
+			"width": 96,
+			"height": 32,
+			"path": "image/map.png"
+		},
+		"frame": {
+			"type": "image",
+			"width": 120,
+			"height": 120,
+			"path": "image/frame.png"
+		},
+		"right": {
+			"type": "image",
+			"width": 16,
+			"height": 16,
+			"path": "image/right.png"
+		},
+		"bw": {
+			"type": "image",
+			"width": 16,
+			"height": 8,
+			"path": "image/bw.png"
+		},
+		"sampleScene1": {
+			"type": "script",
+			"path": "script/sampleScene1.js",
+			"global": true
+		},
+		"sampleScene2": {
+			"type": "script",
+			"path": "script/sampleScene2.js",
+			"global": true
+		},
+		"sampleScene3": {
+			"type": "script",
+			"path": "script/sampleScene3.js",
+			"global": true
+		}
+	},
+	"globalScripts": [
+		"node_modules/@akashic-extension/akashic-tile/lib/Tile.js",
+		"node_modules/@akashic-extension/akashic-tile/lib/index.js",
+		"node_modules/@akashic-extension/akashic-tile/package.json"
+	]
+}

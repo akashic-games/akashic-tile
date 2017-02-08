@@ -1,0 +1,14 @@
+{
+  "name": "akashic-tile-example",
+  "private": true,
+  "version": "1.1.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "@akashic-extension/akashic-tile": "0.1.1"
+  }
+}
