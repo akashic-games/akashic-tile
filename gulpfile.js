@@ -30,7 +30,7 @@ gulp.task("lint", function(){
 });
 
 gulp.task("lint-md", function(){
-  return gulp.src(["**/*.md", "!node_modules/**/*.md"])
+  return gulp.src(["**/*.md", "!node_modules/**/*.md", "!sample/node_modules/**/*.md", "!sample/game/node_modules/**/*.md"])
     .pipe(shell(["mdast <%= file.path %> --frail --no-stdout --quiet"]));
 });
 
