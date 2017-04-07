@@ -115,7 +115,7 @@ class Tile extends g.CacheableE {
 			return;
 		}
 		renderer.save();
-		renderer.setCompositeOperation(g.CompositeOperation.SourceOver); // TODO: g.CompositeOperation.Copyが実装されたら置き換える
+		renderer.setCompositeOperation(g.CompositeOperation.Copy);
 
 		for (var y = 0; y < this.tileData.length; ++y) {
 			var row = this.tileData[y];
