@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "es5",
     "declaration": true,
-    "noLib": true,
+	"noLib": false,
+	"lib": ["es5"],
     "noImplicitAny": true,
     "outDir": "lib",
-    "module": "commonjs"
+	"module": "commonjs",
+	"types": ["node"]
   },
   "files": [
-    "node_modules/typescript/lib/lib.core.d.ts",
-    "node_modules/@akashic/akashic-engine/lib/main.d.ts",
-    "src/index.ts",
-    "src/Tile.ts",
-    "src/TileParameterObject.ts"
+    "node_modules/@akashic/akashic-engine/lib/main.d.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
   ]
 }

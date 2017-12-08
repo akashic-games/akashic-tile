@@ -4,7 +4,7 @@
     "noLib": false,
     "noImplicitAny": true,
     "module": "commonjs",
-    "declaration": false
+    "types": ["node"]
   },
   "files": [
     "../node_modules/@akashic/akashic-engine/lib/main.d.ts",
