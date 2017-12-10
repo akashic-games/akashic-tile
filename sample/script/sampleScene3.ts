@@ -6,7 +6,7 @@ export function sampleScene3() {
 		game: game,
 		assetIds: ["map", "frame", "right", "bw"]
 	});
-	scene.loaded.handle(function() {
+	scene.loaded.add(function() {
 		var tileArray: any[] = [];
 		for (var i = 0; i < 80; ++i) {
 			tileArray[i] = [];
@@ -24,7 +24,7 @@ export function sampleScene3() {
 		};
 		var tile = new Tile(to);
 		scene.append(tile);
-		tile.update.handle(tile, function() {
+		tile.update.add(function() {
 			var arr = tile.tileData;
 			for (var i = 0; i < 80; ++i) {
 				for (var j = 0; j < 80; ++j) {
@@ -37,7 +37,7 @@ export function sampleScene3() {
 				}
 			}
 			this.invalidate();
-		});
+		}, tile);
 
 		var prev = new g.Sprite({
 			scene: scene,
@@ -48,9 +48,9 @@ export function sampleScene3() {
 		prev.angle = 180;
 		scene.append(prev);
 		prev.touchable = true;
-		prev.pointDown.handle(prev, function() {
+		prev.pointDown.add(function() {
 			game.popScene();
-		});
+		}, prev);
 
 	});
 	return scene;

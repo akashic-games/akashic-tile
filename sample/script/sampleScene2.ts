@@ -7,7 +7,7 @@ export function sampleScene2() {
 		game: game,
 		assetIds: ["map", "frame", "right"]
 	});
-	scene.loaded.handle(function() {
+	scene.loaded.add(function() {
 
 		// background
 		var rect = new g.FilledRect({
@@ -48,7 +48,7 @@ export function sampleScene2() {
 		tile.touchable = true;
 		scene.append(tile);
 
-		tile.update.handle(tile, function() {
+		tile.update.add(function() {
 			if (game.age % 15 !== 0) return;
 			for (var i = 0; i < this.tileData.length; ++i) {
 				for (var j = 0; j < this.tileData[i].length; ++j) {
@@ -60,15 +60,15 @@ export function sampleScene2() {
 				}
 			}
 			this.invalidate();
-		});
+		}, tile);
 
-		tile.pointDown.handle(tile, function(e) {
+		tile.pointDown.add(function(e: any) {
 			this.bx = this.x;
 			this.by = this.y;
 			this.cx = this.redrawArea.x;
 			this.cy = this.redrawArea.y;
-		});
-		tile.pointMove.handle(tile, function(e){
+		}, tile);
+		tile.pointMove.add(function(e: any){
 			this.x = this.bx + e.startDelta.x;
 			this.y = this.by + e.startDelta.y;
 			this.redrawArea = {
@@ -78,10 +78,10 @@ export function sampleScene2() {
 				height: game.height / 2
 			};
 			this.invalidate();
-		});
-		tile.pointUp.handle(tile, function(e) {
+		}, tile);
+		tile.pointUp.add(function(e: any) {
 			this.invalidate();
-		});
+		}, tile);
 
 		// frame
 		var frameAsset = <g.ImageAsset>scene.assets["frame"];
@@ -101,10 +101,10 @@ export function sampleScene2() {
 		next.y = game.height - 20;
 		scene.append(next);
 		next.touchable = true;
-		next.pointDown.handle(next, function() {
+		next.pointDown.add(function() {
 			var scene3 = sampleScene3();
 			game.replaceScene(scene3);
-		});
+		}, next);
 
 	});
 	return scene;
