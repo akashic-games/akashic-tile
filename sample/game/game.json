@@ -52,5 +52,8 @@
 		"node_modules/@akashic-extension/akashic-tile/lib/Tile.js",
 		"node_modules/@akashic-extension/akashic-tile/lib/index.js",
 		"node_modules/@akashic-extension/akashic-tile/package.json"
-	]
+	],
+	"environment": {
+		"sandbox-runtime": "2"
+	}
 }
