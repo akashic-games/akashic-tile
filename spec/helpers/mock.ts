@@ -378,6 +378,7 @@ export class ResourceFactory extends g.ResourceFactory {
 		this.createsDelayedAsset = false;
 		this._necessaryRetryCount = 0;
 		this._delayedAssets = [];
+		this.game = null;
 	}
 
 	init(game: g.Game) {
