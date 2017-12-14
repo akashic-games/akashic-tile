@@ -53,7 +53,7 @@ var at = require("@akashic-extension/akashic-tile");
 
 **akashic-tile**はTypeScriptで書かれたライブラリであるため、ビルドにはnode.jsが必要です。
 
-`npm run build` によりgulpを使ってビルドできます。
+`npm run build` によりビルドできます。
 
 ```sh
 npm install

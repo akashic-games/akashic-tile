@@ -53,7 +53,6 @@
       "strong-marker": "*",
       "table-cell-padding": "consistent",
       "table-pipe-alignment": true,
-      "table-pipes": true,
       "unordered-list-marker-style": "*"
     }
   },
