@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "noLib": false,
     "noImplicitAny": true,
     "module": "commonjs",
     "types": ["node"]

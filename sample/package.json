@@ -5,7 +5,7 @@
   "description": "",
   "scripts": {
     "prepublish": "npm run build:tsc",
-	"build": "npm run build:tsc && cd game && akashic update asset script -q",
+    "build": "npm run build:tsc && cd game && akashic update asset script -q",
     "build:tsc": "tsc",
     "lint": "tslint src/**/*.ts",
     "start": "akashic-sandbox game",
