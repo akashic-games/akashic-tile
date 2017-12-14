@@ -1,6 +1,6 @@
 {
   "name": "@akashic-extension/akashic-tile",
-  "version": "0.1.1",
+  "version": "2.0.0",
   "description": "Tilemap library for Akashic Engine",
   "main": "lib/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "npm run clean & tsc",
     "doc": "typedoc --out ./doc",
     "lint": "npm run lint:ts && npm run lint:md",
-    "lint:ts": "tslint -c tslint.json src/**/*.ts",
+    "lint:ts": "tslint --type-check -c tslint.json src/**/*.ts --project ./tsconfig.json",
     "lint:md": "remark ./*.md --frail --no-stdout --quiet --rc-path ./.remarkrc",
     "test": "npm run build && npm run test:compile && npm run test:jasmine && npm run lint",
     "test:compile": "cd spec/ && tsc && cd ../",
@@ -18,17 +18,17 @@
   "author": "DWANGO Co., Ltd.",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "6.0.46",
-    "rimraf": "^2.6.1",
-    "@akashic/akashic-engine": "~1.10.1",
+	"@types/node": "6.0.46",
+	"rimraf": "^2.6.1",
+    "@akashic/akashic-engine": "~2.0.0",
     "jasmine": "^2.1.1",
     "remark-cli": "~2.0.0",
     "remark-lint": "~5.0.1",
     "mdast-lint": "^1.1.1",
     "istanbul": "^0.3.2",
     "typedoc": "^0.8.0",
-    "tslint": "^5.4.3",
-    "typescript": "2.1.6"
+    "tslint": "~5.4.3",
+	"typescript": "2.1.6"
   },
   "typings": "lib/index.d.ts",
   "files": [

@@ -4,7 +4,7 @@ function skeletonRuntime(gameConfiguration?: g.GameConfiguration) {
 	if (!gameConfiguration)
 		gameConfiguration = { width: 320, height: 320 };
 	var game = new mock.Game(gameConfiguration);
-	var scene = new g.Scene(game);
+	var scene = new g.Scene({ game });
 	game.pushScene(scene);
 	game._flushSceneChangeRequests();
 	return {
@@ -13,4 +13,4 @@ function skeletonRuntime(gameConfiguration?: g.GameConfiguration) {
 	};
 }
 
-export = skeletonRuntime
+export = skeletonRuntime;
