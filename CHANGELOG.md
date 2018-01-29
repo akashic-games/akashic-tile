@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.1
+* サンプルのディレクトリ構造を akashic-cli-init の typescript テンプレートに追従。
+
 ## 2.0.0
 * akashic-engine@2.0.0 系に追従。あわせてバージョンを 2.0.0 に。
 

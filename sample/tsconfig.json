@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
+	"target": "es5",
+	"lib": ["es5"],
     "noImplicitAny": true,
     "module": "commonjs" ,
-    "outDir": "./game/script"
+    "outDir": "./script"
   },
   "files": [
-    "node_modules/typescript/lib/lib.d.ts",
-    "node_modules/@akashic/akashic-engine/lib/main.d.ts",
-    "script/mainScene.ts",
-    "script/sampleScene1.ts",
-    "script/sampleScene2.ts",
-    "script/sampleScene3.ts"
+    "node_modules/@akashic/akashic-engine/lib/main.d.ts"
+  ],
+  "include": [
+	  "src/**/*.ts"
   ]
 }

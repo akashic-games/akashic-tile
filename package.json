@@ -1,6 +1,6 @@
 {
   "name": "@akashic-extension/akashic-tile",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Tilemap library for Akashic Engine",
   "main": "lib/index.js",
   "scripts": {
@@ -21,20 +21,18 @@
 	"@types/node": "6.0.46",
 	"rimraf": "^2.6.1",
     "@akashic/akashic-engine": "~2.0.0",
-    "jasmine": "^2.1.1",
+    "jasmine": "~2.8.0",
     "remark-cli": "~2.0.0",
     "remark-lint": "~5.0.1",
     "mdast-lint": "^1.1.1",
     "istanbul": "^0.3.2",
     "typedoc": "^0.8.0",
     "tslint": "~5.4.3",
-	"typescript": "2.1.6"
+	"typescript": "^2.1.6"
   },
   "typings": "lib/index.d.ts",
   "files": [
     "lib",
-    "doc",
-    "sample",
     "package.json",
     "README.md"
   ],
