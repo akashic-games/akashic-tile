@@ -4,7 +4,7 @@
 
 # akashic-tile
 
-**akashic-tile** は、[Akashic Engine](https://github.com/akashic-games/akashic-engine)用のタイルマップ描画ライブラリです。
+**akashic-tile** は、 [Akashic Engine](https://akashic-games.github.io/) 用のタイルマップ描画ライブラリです。
 
 例えば幅32、高さ32の画像を敷き詰めたマップチップ画像のアセット `mapchipImage` を持つシーン `scene` がある時、
 マップチップを敷き詰めた画像(タイルマップ)を表示するエンティティを生成できます。
@@ -48,6 +48,7 @@ var at = require("@akashic-extension/akashic-tile");
 
 * [APIリファレンス](https://akashic-games.github.io/reference/akashic-tile/index.html)。
 * このリポジトリ同梱の[サンプルコード](./sample)
+Akashic Engineの詳細な利用方法については、 [公式ページ](https://akashic-games.github.io/) を参照してください。
 
 ## ビルド方法
 
