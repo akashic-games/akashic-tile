@@ -145,7 +145,7 @@ class Tile extends g.CacheableE {
 				}
 
 				renderer.setCompositeOperation(g.CompositeOperation.DestinationOut);
-				renderer.fillRect(dx, dy, this.tileWidth, this.tileHeight, "silver");
+				renderer.fillRect(dx, dy, this.tileWidth, this.tileHeight, "silver"); // DestinationOutなので色はなんでも可
 				renderer.setCompositeOperation(g.CompositeOperation.SourceOver);
 				renderer.drawImage(
 					this.tileChips,
