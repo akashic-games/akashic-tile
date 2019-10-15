@@ -20,31 +20,26 @@ export function sampleScene1() {
 
 		// tile
 		var mapAsset = <g.ImageAsset>scene.assets["map"];
-		var tileArray: any[] = [];
+		var tileArray: number[][] = [];
 		for (var i = 0; i < 50; ++i) {
 			tileArray[i] = [];
 			for (var j = 0; j < 50; ++j) {
-				if (game.random[0].get(0, 1) > 0.5) {
-					tileArray[i].push(0);
-				} else {
-					tileArray[i].push(1);
-				}
+				tileArray[i].push(game.random.get(0, 1));
 			}
 		}
-		var to = {
+		var tile = new Tile({
 			scene: scene,
 			src: mapAsset,
 			tileWidth:  32,
 			tileHeight: 32,
-			tileData: tileArray
-		};
-		var tile = new Tile(to);
-		tile.redrawArea = {
-			x: game.width / 4,
-			y: game.height / 4,
-			width: game.width/ 2,
-			height: game.height / 2
-		};
+			tileData: tileArray,
+			redrawArea: {
+				x: game.width / 4,
+				y: game.height / 4,
+				width: game.width/ 2,
+				height: game.height / 2
+			}
+		});
 		scene.append(tile);
 
 		tile.touchable = true;
@@ -89,7 +84,7 @@ export function sampleScene1() {
 		next.touchable = true;
 		next.pointDown.add(function() {
 			var scene2 = sampleScene2();
-			game.pushScene(scene2);
+			game.replaceScene(scene2);
 		}, next);
 
 	});

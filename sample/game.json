@@ -46,6 +46,17 @@
 			"type": "script",
 			"path": "script/sampleScene3.js",
 			"global": true
+		},
+		"partial_transparent": {
+			"type": "image",
+			"width": 96,
+			"height": 32,
+			"path": "image/partial_transparent.png"
+		},
+		"sampleScene0": {
+			"type": "script",
+			"path": "script/sampleScene0.js",
+			"global": true
 		}
 	},
 	"globalScripts": [

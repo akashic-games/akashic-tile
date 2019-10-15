@@ -23,6 +23,14 @@ interface TileParameterObject extends g.CacheableEParameterObject {
 	 * `Tile` はこの配列の内容に従い、マップチップを左上から敷き詰めて描画する。
 	 */
 	tileData: number[][];
+
+	/**
+	 * マップチップが描画される領域。
+	 * 与えられた場合、それ以降は指定された領域の外のマップチップは再描画されない。
+	 *
+	 * 画面外にあたるなどの、不要なマップチップの再描画をしないことで、描画を最適化するために利用できる。
+	 */
+	redrawArea?: g.CommonArea;
 }
 
 export = TileParameterObject;

@@ -11,7 +11,7 @@
     "start": "akashic-sandbox ./",
     "test": "npm run test:jasmine && npm run lint",
     "test:jasmine": "istanbul cover --report text --report html --colors -i ./lib/index.js ./node_modules/jasmine/bin/jasmine.js"
-},
+  },
   "author": "",
   "license": "",
   "devDependencies": {
