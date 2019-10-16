@@ -15,14 +15,13 @@ export function sampleScene3() {
 			}
 		}
 		var mapAsset = <g.ImageAsset>scene.assets["bw"];
-		var to = {
+		var tile = new Tile({
 			scene: scene,
 			src: mapAsset,
 			tileWidth:  8,
 			tileHeight: 8,
 			tileData: tileArray
-		};
-		var tile = new Tile(to);
+		});
 		scene.append(tile);
 		tile.update.add(function() {
 			var arr = tile.tileData;

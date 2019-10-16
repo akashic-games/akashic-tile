@@ -35,12 +35,13 @@ class Tile extends g.CacheableE {
 
 	/**
 	 * マップチップが描画される領域。
-	 * 領域が設定された場合、それ以降は領域内のマップチップのみ再描画され、領域外にあるマップチップは再描画されない。
-	 * 領域が設定されていない場合、全てのマップチップを描画する。
-	 * 画面外にあるなど描画の不要なマップチップの再描画をしないことにより、エンティティの描画を最適化する。
+	 *
+	 * 設定された場合、指定された領域外にあるマップチップは再描画されない。
+	 * 画面外にあたるなどの、不要なマップチップの再描画をしないことで、描画を最適化するために利用できる。
 	 * この値を変更した場合、 `this.invalidate()` が呼び出される必要がある。
+	 * 初期値は `undefined` 。
 	 */
-	redrawArea: g.CommonArea;
+	redrawArea: g.CommonArea | null | undefined;
 
 	_tilesInRow: number;
 
@@ -62,7 +63,7 @@ class Tile extends g.CacheableE {
 		this.width = this.tileWidth * this.tileData[0].length;
 
 		this._invalidateSelf();
-		this.redrawArea = undefined;
+		this.redrawArea = param.redrawArea;
 		this._drawnTileData = undefined;
 	}
 
@@ -115,7 +116,6 @@ class Tile extends g.CacheableE {
 			return;
 		}
 		renderer.save();
-		renderer.setCompositeOperation(g.CompositeOperation.SourceOver); // TODO: g.CompositeOperation.Copyが実装されたら置き換える
 
 		for (var y = 0; y < this.tileData.length; ++y) {
 			var row = this.tileData[y];
@@ -144,6 +144,9 @@ class Tile extends g.CacheableE {
 					}
 				}
 
+				renderer.setCompositeOperation(g.CompositeOperation.DestinationOut);
+				renderer.fillRect(dx, dy, this.tileWidth, this.tileHeight, "silver"); // DestinationOutなので色はなんでも可
+				renderer.setCompositeOperation(g.CompositeOperation.SourceOver);
 				renderer.drawImage(
 					this.tileChips,
 					tileX,
