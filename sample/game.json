@@ -66,5 +66,8 @@
 	],
 	"environment": {
 		"sandbox-runtime": "2"
+	},
+	"moduleMainScripts": {
+		"@akashic-extension/akashic-tile": "node_modules/@akashic-extension/akashic-tile/lib/index.js"
 	}
 }

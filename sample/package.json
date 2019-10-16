@@ -23,7 +23,7 @@
     "tslint": "~5.4.3"
   },
   "dependencies": {
-    "@akashic-extension/akashic-tile": "2.0.1",
+    "@akashic-extension/akashic-tile": "2.0.2",
     "@akashic/akashic-cli": "^1.0.8",
     "@akashic/akashic-sandbox": "^0.13.7"
   }
