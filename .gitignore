@@ -7,5 +7,4 @@ junitresults.xml
 lib
 tmp
 .idea
-spec/helpers/*.js
 doc

@@ -1,19 +1,13 @@
 global.g = require("@akashic/akashic-engine");
-var TileParameterObject = require("../lib/TileParameterObject");
 var Tile = require("../lib/Tile");
 
 describe("Tile", function() {
-	var runtime;
-	var bmpfont;
-	var g = require('../node_modules/@akashic/akashic-engine/lib/main.node.js');
-	var mock = require("./helpers/mock");
-	var skeletonRuntime = require("./helpers/skeleton");
+	var mock = require("./lib/mock");
+	var skeletonRuntime = require("./lib/skeleton");
 
 	beforeEach(function() {
-		jasmine.addMatchers(require("./helpers/customMatchers"));
+		jasmine.addMatchers(require("./lib/customMatchers"));
 		runtime = skeletonRuntime();
-		var width = 512;
-		var height = 350;
 	});
 
 	afterEach(function() {
@@ -37,7 +31,7 @@ describe("Tile", function() {
 	});
 
 	it("render", function(){
-		jasmine.addMatchers(require("./helpers/customMatchers"));
+		jasmine.addMatchers(require("./lib/customMatchers"));
 		var runtime = skeletonRuntime();
 		var surface = new g.Surface(480, 480);
 		var tileData = [[0,0,0],[0,0,0]];
@@ -64,7 +58,7 @@ describe("Tile", function() {
 	});
 
 	it("render validation", function(){
-		jasmine.addMatchers(require("./helpers/customMatchers"));
+		jasmine.addMatchers(require("./lib/customMatchers"));
 		var runtime = skeletonRuntime();
 		var surface = new g.Surface(480, 480);
 		var tileData = [[0,0,0],[0,0,0]];
@@ -117,7 +111,7 @@ describe("Tile", function() {
 	});
 
 	it("render use _drawnTileData", function(){
-		jasmine.addMatchers(require("./helpers/customMatchers"));
+		jasmine.addMatchers(require("./lib/customMatchers"));
 		var runtime = skeletonRuntime();
 		var surface = new g.Surface(20, 10);
 		var tileData = [[0,0,0],[0,0,0]];
@@ -145,7 +139,7 @@ describe("Tile", function() {
 	});
 
 	it("render use commonArea", function(){
-		jasmine.addMatchers(require("./helpers/customMatchers"));
+		jasmine.addMatchers(require("./lib/customMatchers"));
 		var runtime = skeletonRuntime();
 		var surface = new g.Surface(20, 10);
 		var tileData = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
