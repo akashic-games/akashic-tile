@@ -3,14 +3,12 @@
     "target": "es5",
     "noImplicitAny": true,
     "module": "commonjs",
-    "types": ["node"],
-    "allowUmdGlobalAccess": true,
-    "outDir": "lib"
+    "types": ["node"]
   },
   "files": [
-    "../node_modules/@akashic/akashic-engine/index.runtime.d.ts",
-  ],
-  "include": [
-    "helpers/**/*.ts"
+    "../node_modules/@akashic/akashic-engine/lib/main.d.ts",
+    "helpers/customMatchers.ts",
+    "helpers/mock.ts",
+    "helpers/skeleton.ts"
   ]
 }

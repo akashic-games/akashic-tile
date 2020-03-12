@@ -1,5 +1,7 @@
 import { sampleScene0 } from "./sampleScene0";
 
+declare var module: any;
+
 module.exports = function () {
-    g.game.pushScene(sampleScene0());
+    return sampleScene0();
 };

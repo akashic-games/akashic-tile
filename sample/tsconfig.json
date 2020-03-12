@@ -4,11 +4,10 @@
     "lib": ["es5"],
     "noImplicitAny": true,
     "module": "commonjs" ,
-    "outDir": "./script",
-    "allowUmdGlobalAccess": true
+    "outDir": "./script"
   },
   "files": [
-    "./node_modules/@akashic/akashic-engine/index.runtime.d.ts"
+    "node_modules/@akashic/akashic-engine/lib/main.d.ts"
   ],
   "include": [
       "src/**/*.ts"

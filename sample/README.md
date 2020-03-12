@@ -1,11 +1,13 @@
 # akashic-tile-example
 
 このディレクトリの内容は、@akashic-extension/akashic-tile のサンプルコンテンツです。
-以下のコマンドで実行することができます。
+akashic-sandbox を用いて実行することができます。
 
 ```
 npm install
 npm run build
-npm start
+cd game
+npm install
+akashic-sandbox .
 ```
 
