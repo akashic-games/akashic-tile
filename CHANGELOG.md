@@ -1,8 +1,5 @@
 # CHANGELOG
 
-## Unreleased changes
-* akashic-engine@3.0.0 系に追従。あわせてバージョンを 3.0.0 に。
-
 ## 2.0.2
 * 半透明・透明部分のあるマップチップをサポート。
 * コンストラクタ引数で `redrawArea` を指定できるように。
