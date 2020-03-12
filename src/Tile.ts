@@ -8,7 +8,7 @@ class Tile extends g.CacheableE {
 	 * マップチップ画像。
 	 * この値を変更した場合、 `this.invalidate()` が呼び出される必要がある。
 	 */
-	tileChips: g.Surface;
+	tileChips: g.SurfaceLike;
 
 	/**
 	 * マップチップ一つの幅。
@@ -57,7 +57,7 @@ class Tile extends g.CacheableE {
 		this.tileWidth = param.tileWidth;
 		this.tileHeight = param.tileHeight;
 		this.tileData = param.tileData;
-		this.tileChips = g.Util.asSurface(param.src);
+		this.tileChips = g.SurfaceUtil.asSurface(param.src);
 
 		this.height = this.tileHeight * this.tileData.length;
 		this.width = this.tileWidth * this.tileData[0].length;
@@ -71,7 +71,7 @@ class Tile extends g.CacheableE {
 	 * このエンティティ自身の描画を行う。
 	 * このメソッドはエンジンから暗黙に呼び出され、ゲーム開発者が呼び出す必要はない。
 	 */
-	renderSelf(renderer: g.Renderer, camera?: g.Camera): boolean {
+	renderSelf(renderer: g.RendererLike, camera?: g.Camera): boolean {
 		if (this._renderedCamera !== camera) {
 			this.state &= ~g.EntityStateFlags.Cached;
 			this._renderedCamera = camera;
@@ -109,7 +109,7 @@ class Tile extends g.CacheableE {
 		return this._shouldRenderChildren;
 	}
 
-	renderCache(renderer: g.Renderer): void {
+	renderCache(renderer: g.RendererLike): void {
 		if (! this.tileData)
 			throw g.ExceptionFactory.createAssertionError("Tile#_renderCache: don't have a tile data");
 		if (this.tileWidth <= 0 || this.tileHeight <= 0) {

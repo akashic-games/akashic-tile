@@ -2,7 +2,7 @@ interface TileParameterObject extends g.CacheableEParameterObject {
 	/**
 	 * マップチップ画像。
 	 */
-	src: g.Surface|g.Asset;
+	src: g.SurfaceLike|g.ImageAssetLike;
 
 	/**
 	 * マップチップ一つの幅。
