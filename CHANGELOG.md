@@ -1,8 +1,5 @@
 # CHANGELOG
 
-## Unreleased changes
-* TypeDocで出力されるリファレンスにGAのトラッキングIDが付与されるように改修
-
 ## 2.0.2
 * 半透明・透明部分のあるマップチップをサポート。
 * コンストラクタ引数で `redrawArea` を指定できるように。
