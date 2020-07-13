@@ -180,11 +180,11 @@ export class Renderer implements g.Renderer {
 		// nothing to do
 	}
 
-    _getImageData(_sx: number, _sy: number, _sw: number, _sh: number): any {
+	_getImageData(_sx: number, _sy: number, _sw: number, _sh: number): any {
 		return {};
 	}
 
-    _putImageData(
+	_putImageData(
 		_imageData: ImageData,
 		_dx: number,
 		_dy: number,
@@ -410,7 +410,7 @@ class AudioAsset extends Asset implements g.AudioAsset {
 	_failureController: LoadFailureController;
 
 	constructor(necessaryRetryCount: number, id: string, assetPath: string, duration: number,
-	            system: g.AudioSystem, loop: boolean, hint: g.AudioAssetHint) {
+				system: g.AudioSystem, loop: boolean, hint: g.AudioAssetHint) {
 		super(id, assetPath);
 		this.duration = duration;
 		this.loop = loop;
@@ -521,11 +521,11 @@ export class SurfaceAtlas implements g.SurfaceAtlas {
 		this._usedRectangleAreaSize = { width: 0, height: 0 };
 	}
 
-    _acquireSurfaceAtlasSlot(_width: number, _height: number): g.SurfaceAtlasSlot | null {
+	_acquireSurfaceAtlasSlot(_width: number, _height: number): g.SurfaceAtlasSlot | null {
 		return null;
 	}
 
-    _updateUsedRectangleAreaSize(_slot: g.SurfaceAtlasSlot): void {
+	_updateUsedRectangleAreaSize(_slot: g.SurfaceAtlasSlot): void {
 		//
 	}
 
@@ -607,7 +607,7 @@ export class ResourceFactory implements g.ResourceFactory {
 	}
 
 	createVideoAsset(_id: string, _assetPath: string, _width: number, _height: number,
-	                 _system: g.VideoSystem, _loop: boolean, _useRealSize: boolean): g.VideoAsset {
+					_system: g.VideoSystem, _loop: boolean, _useRealSize: boolean): g.VideoAsset {
 		throw new Error("not implemented");
 	}
 
