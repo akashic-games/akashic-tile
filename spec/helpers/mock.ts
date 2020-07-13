@@ -410,7 +410,7 @@ class AudioAsset extends Asset implements g.AudioAsset {
 	_failureController: LoadFailureController;
 
 	constructor(necessaryRetryCount: number, id: string, assetPath: string, duration: number,
-				system: g.AudioSystem, loop: boolean, hint: g.AudioAssetHint) {
+	            system: g.AudioSystem, loop: boolean, hint: g.AudioAssetHint) {
 		super(id, assetPath);
 		this.duration = duration;
 		this.loop = loop;
@@ -607,7 +607,7 @@ export class ResourceFactory implements g.ResourceFactory {
 	}
 
 	createVideoAsset(_id: string, _assetPath: string, _width: number, _height: number,
-					_system: g.VideoSystem, _loop: boolean, _useRealSize: boolean): g.VideoAsset {
+	                 _system: g.VideoSystem, _loop: boolean, _useRealSize: boolean): g.VideoAsset {
 		throw new Error("not implemented");
 	}
 
