@@ -1,4 +1,4 @@
-export class Renderer implements g.RendererLike {
+export class Renderer implements g.Renderer {
 	methodCallHistoryWithParams: {
 		methodName: string;
 		params?: {}
@@ -38,7 +38,7 @@ export class Renderer implements g.RendererLike {
 		return params;
 	}
 
-	drawImage(surface: g.SurfaceLike, offsetX: number, offsetY: number, width: number, height: number,
+	drawImage(surface: g.Surface, offsetX: number, offsetY: number, width: number, height: number,
 		canvasOffsetX: number, canvasOffsetY: number): void {
 		this.methodCallHistoryWithParams.push({
 			methodName: "drawImage",
@@ -82,7 +82,7 @@ export class Renderer implements g.RendererLike {
 		});
 	}
 
-	setCompositeOperation(operation: g.CompositeOperation): void {
+	setCompositeOperation(operation: g.CompositeOperationString): void {
 		this.methodCallHistoryWithParams.push({
 			methodName: "setCompositeOperation",
 			params: {
@@ -137,7 +137,7 @@ export class Renderer implements g.RendererLike {
 	}
 
 	drawSystemText(text: string, x: number, y: number, maxWidth: number, fontSize: number,
-			textAlign: g.TextAlign, textBaseline: g.TextBaseline, textColor: string, fontFamily: g.FontFamily,
+			textAlign: g.TextAlign, textBaseline: string, textColor: string, fontFamily: g.FontFamily,
 			strokeWidth: number, strokeColor: string, strokeOnly: boolean): void {
 		this.methodCallHistoryWithParams.push({
 			methodName: "drawSystemText",
@@ -176,15 +176,15 @@ export class Renderer implements g.RendererLike {
 		return false;
 	}
 
-	setShaderProgram(_shaderProgram: g.ShaderProgramLike | null): void {
+	setShaderProgram(_shaderProgram: g.ShaderProgram | null): void {
 		// nothing to do
 	}
 
-    _getImageData(_sx: number, _sy: number, _sw: number, _sh: number): any {
+	_getImageData(_sx: number, _sy: number, _sw: number, _sh: number): any {
 		return {};
 	}
 
-    _putImageData(
+	_putImageData(
 		_imageData: ImageData,
 		_dx: number,
 		_dy: number,
@@ -201,7 +201,7 @@ export class Renderer implements g.RendererLike {
 	}
 }
 
-class Surface implements g.SurfaceLike {
+export class Surface implements g.Surface {
 	width: number;
 	height: number;
 	isDynamic: boolean;
@@ -232,7 +232,7 @@ class Surface implements g.SurfaceLike {
 		return !!this._destroyed;
 	}
 
-	renderer(): g.RendererLike {
+	renderer(): g.Renderer {
 		var r = new Renderer();
 		this.createdRenderer = r;
 		return r;
@@ -252,7 +252,7 @@ class LoadFailureController {
 		this.failureCount = 0;
 	}
 
-	tryLoad(asset: g.AssetLike, loader: g.AssetLoadHandler): boolean {
+	tryLoad(asset: g.Asset, loader: g.AssetLoadHandler): boolean {
 		if (this.necessaryRetryCount < 0) {
 			setTimeout(() => {
 				if (!asset.destroyed())
@@ -271,18 +271,18 @@ class LoadFailureController {
 	}
 }
 
-export abstract class Asset implements g.AssetLike {
+export abstract class Asset implements g.Asset {
 	type: string;
 	id: string;
 	path: string;
 	originalPath: string;
-	onDestroyed: g.Trigger<g.AssetLike>;
+	onDestroyed: g.Trigger<g.Asset>;
 
 	constructor(id: string, path: string) {
 		this.id = id;
 		this.originalPath = path;
 		this.path = this._assetPathFilter(path);
-		this.onDestroyed = new g.Trigger<g.AssetLike>();
+		this.onDestroyed = new g.Trigger<g.Asset>();
 	}
 
 	destroy(): void {
@@ -309,7 +309,7 @@ export abstract class Asset implements g.AssetLike {
 	}
 }
 
-export class ImageAsset extends Asset implements g.ImageAssetLike {
+export class ImageAsset extends Asset implements g.ImageAsset {
 	type: "image" = "image";
 	width: number;
 	height: number;
@@ -400,17 +400,17 @@ export class DelayedImageAsset extends ImageAsset implements DelayedAsset {
 	}
 }
 
-class AudioAsset extends Asset implements g.AudioAssetLike {
+class AudioAsset extends Asset implements g.AudioAsset {
 	type: "audio" = "audio";
 	data: any;
 	duration: number;
 	loop: boolean;
 	hint: g.AudioAssetHint;
-	_system: g.AudioSystemLike;
+	_system: g.AudioSystem;
 	_failureController: LoadFailureController;
 
 	constructor(necessaryRetryCount: number, id: string, assetPath: string, duration: number,
-	            system: g.AudioSystemLike, loop: boolean, hint: g.AudioAssetHint) {
+	            system: g.AudioSystem, loop: boolean, hint: g.AudioAssetHint) {
 		super(id, assetPath);
 		this.duration = duration;
 		this.loop = loop;
@@ -429,7 +429,7 @@ class AudioAsset extends Asset implements g.AudioAssetLike {
 		}
 	}
 
-	play(): g.AudioPlayerLike {
+	play(): g.AudioPlayer {
 		return this._system.createPlayer();
 	}
 
@@ -442,7 +442,7 @@ class AudioAsset extends Asset implements g.AudioAssetLike {
 	}
 }
 
-class TextAsset extends Asset implements g.TextAssetLike {
+class TextAsset extends Asset implements g.TextAsset {
 	type: "text" = "text";
 	data: string;
 	game: g.Game;
@@ -469,7 +469,7 @@ class TextAsset extends Asset implements g.TextAssetLike {
 	}
 }
 
-class ScriptAsset extends Asset implements g.ScriptAssetLike {
+class ScriptAsset extends Asset implements g.ScriptAsset {
 	type: "script" = "script";
 	script: string;
 	game: g.Game;
@@ -508,20 +508,28 @@ class ScriptAsset extends Asset implements g.ScriptAssetLike {
 	}
 }
 
-export class SurfaceAtlas implements g.SurfaceAtlasLike {
-	_surface: g.SurfaceLike;
+export class SurfaceAtlas implements g.SurfaceAtlas {
+	_surface: g.Surface;
 	_accessScore: number;
-	_emptySurfaceAtlasSlotHead: g.SurfaceAtlasSlotLike;
+	_emptySurfaceAtlasSlotHead: g.SurfaceAtlasSlot;
 	_usedRectangleAreaSize: g.CommonSize;
 
-	constructor(surface: g.SurfaceLike) {
+	constructor(surface: g.Surface) {
 		this._surface = surface;
 		this._accessScore = 0;
 		this._emptySurfaceAtlasSlotHead = new g.SurfaceAtlasSlot(0, 0, this._surface.width, this._surface.height);
 		this._usedRectangleAreaSize = { width: 0, height: 0 };
 	}
 
-	addSurface(_surface: g.SurfaceLike, _offsetX: number, _offsetY: number, _width: number, _height: number): g.SurfaceAtlasSlotLike {
+	_acquireSurfaceAtlasSlot(_width: number, _height: number): g.SurfaceAtlasSlot | null {
+		return null;
+	}
+
+	_updateUsedRectangleAreaSize(_slot: g.SurfaceAtlasSlot): void {
+		//
+	}
+
+	addSurface(_surface: g.Surface, _offsetX: number, _offsetY: number, _width: number, _height: number): g.SurfaceAtlasSlot {
 		return this._emptySurfaceAtlasSlotHead;
 	}
 
@@ -536,9 +544,13 @@ export class SurfaceAtlas implements g.SurfaceAtlasLike {
 	destroyed(): boolean {
 		return this._surface.destroyed();
 	}
+
+	getAccessScore(): number {
+		return 0;
+	}
 }
 
-export class ResourceFactory implements g.ResourceFactoryLike {
+export class ResourceFactory implements g.ResourceFactory {
 	game: g.Game;
 	scriptContents: {[key: string]: string};
 
@@ -584,7 +596,7 @@ export class ResourceFactory implements g.ResourceFactoryLike {
 		this._delayedAssets = [];
 	}
 
-	createImageAsset(id: string, assetPath: string, width: number, height: number): g.ImageAssetLike {
+	createImageAsset(id: string, assetPath: string, width: number, height: number): g.ImageAsset {
 		if (this.createsDelayedAsset) {
 			var ret = new DelayedImageAsset(this._necessaryRetryCount, id, assetPath, width, height);
 			this._delayedAssets.push(ret);
@@ -595,38 +607,64 @@ export class ResourceFactory implements g.ResourceFactoryLike {
 	}
 
 	createVideoAsset(_id: string, _assetPath: string, _width: number, _height: number,
-	                 _system: g.VideoSystem, _loop: boolean, _useRealSize: boolean): g.VideoAssetLike {
+	                 _system: g.VideoSystem, _loop: boolean, _useRealSize: boolean): g.VideoAsset {
 		throw new Error("not implemented");
 	}
 
-	createAudioAsset(id: string, assetPath: string, duration: number, system: g.AudioSystemLike, loop: boolean, hint: g.AudioAssetHint): g.AudioAssetLike {
+	createAudioAsset(id: string, assetPath: string, duration: number, system: g.AudioSystem, loop: boolean, hint: g.AudioAssetHint): g.AudioAsset {
 		return new AudioAsset(this._necessaryRetryCount, id, assetPath, duration, system, loop, hint);
 	}
 
-	createAudioPlayer(_system: g.AudioSystem): g.AudioPlayerLike {
+	createAudioPlayer(_system: g.AudioSystem): g.AudioPlayer {
 		throw new Error("not implemented");
 	}
 
-	createTextAsset(id: string, assetPath: string): g.TextAssetLike {
+	createTextAsset(id: string, assetPath: string): g.TextAsset {
 		return new TextAsset(this.game, this._necessaryRetryCount, id, assetPath);
 	}
 
-	createScriptAsset(id: string, assetPath: string): g.ScriptAssetLike {
+	createScriptAsset(id: string, assetPath: string): g.ScriptAsset {
 		return new ScriptAsset(this.game, this._necessaryRetryCount, id, assetPath);
 	}
 
-	createSurface(width: number, height: number): g.SurfaceLike {
+	createSurface(width: number, height: number): g.Surface {
 		return new Surface(width, height);
 	}
 
-	createGlyphFactory(fontFamily: g.FontFamily | string | (g.FontFamily | string)[],
-	                   fontSize: number, baselineHeight?: number, fontColor?: string,
-	                   strokeWidth?: number, strokeColor?: string, strokeOnly?: boolean, fontWeight?: g.FontWeight): g.GlyphFactoryLike {
+	createGlyphFactory(
+		_fontFamily: string | string[],
+		_fontSize: number,
+		_baselineHeight?: number,
+		_fontColor?: string,
+		_strokeWidth?: number,
+		_strokeColor?: string,
+		_strokeOnly?: boolean,
+		_fontWeight?: g.FontWeightString
+	): g.GlyphFactory {
 		throw new Error("not implemented");
 	}
 
-	createSurfaceAtlas(width: number, height: number): g.SurfaceAtlasLike {
-		return new SurfaceAtlas(this.createSurface(width, height));
+	createSurfaceAtlas(width: number, height: number): g.SurfaceAtlas {
+		return new g.SurfaceAtlas(this.createSurface(width, height));
+	}
+}
+
+export class GameHandlerSet implements g.GameHandlerSet {
+	raiseTick(_events?: any[]): void {}
+	raiseEvent(_event: any): void {}
+	addEventFilter(_func: (pevs: any[]) => any[], _handleEmpty?: boolean): void {}
+	removeEventFilter(_func: (pevs: any[]) => any[]): void {}
+	removeAllEventFilters(): void {}
+	changeSceneMode(_mode: g.SceneMode): void {}
+	shouldSaveSnapshot(): boolean {
+		return false;
+	}
+	saveSnapshot(_frame: number, _snapshot: any, _randGenSer: any, _timestamp?: number): void {}
+	getInstanceType(): "active" | "passive" {
+		return "passive";
+	}
+	getCurrentTime(): number {
+		return 0;
 	}
 }
 
@@ -635,9 +673,10 @@ export class Game extends g.Game {
 	terminatedGame: boolean;
 	raisedEvents: g.Event[];
 
-	constructor(gameConfiguration: g.GameConfiguration, assetBase?: string, selfId?: string) {
+	constructor(configuration: g.GameConfiguration, assetBase?: string, selfId?: string) {
 		const resourceFactory = new ResourceFactory();
-		super(gameConfiguration, resourceFactory, assetBase, selfId);
+		const handlerSet = new GameHandlerSet();
+		super({ engineModule: g, configuration, resourceFactory, handlerSet, assetBase, selfId });
 		resourceFactory.init(this);
 		this.leftGame = false;
 		this.terminatedGame = false;

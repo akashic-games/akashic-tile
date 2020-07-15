@@ -15,7 +15,7 @@ describe("Tile", function() {
 
 	it("初期化", function() {
 		var runtime = skeletonRuntime();
-		var surface = new g.Surface(480, 480);
+		var surface = new mock.Surface(480, 480);
 		var tileData = [[0]];
 		var tile = new Tile({
 			scene: runtime.scene,
@@ -33,7 +33,7 @@ describe("Tile", function() {
 	it("render", function(){
 		jasmine.addMatchers(require("./lib/customMatchers"));
 		var runtime = skeletonRuntime();
-		var surface = new g.Surface(480, 480);
+		var surface = new mock.Surface(480, 480);
 		var tileData = [[0,0,0],[0,0,0]];
 		var tile = new Tile({
 			scene: runtime.scene,
@@ -60,7 +60,7 @@ describe("Tile", function() {
 	it("render validation", function(){
 		jasmine.addMatchers(require("./lib/customMatchers"));
 		var runtime = skeletonRuntime();
-		var surface = new g.Surface(480, 480);
+		var surface = new mock.Surface(480, 480);
 		var tileData = [[0,0,0],[0,0,0]];
 		var tile = new Tile({
 			scene: runtime.scene,
@@ -92,7 +92,7 @@ describe("Tile", function() {
 
 	it("_tilesInRow更新", function() {
 		var runtime = skeletonRuntime();
-		var surface = new g.Surface(480, 480);
+		var surface = new mock.Surface(480, 480);
 		var tileData = [[0,0,0],[0,0,0]];
 		var tile = new Tile({
 			scene: runtime.scene,
@@ -104,7 +104,7 @@ describe("Tile", function() {
 		tile.tileWidth = 16;
 		tile.invalidate();
 		expect(tile._tilesInRow).toBe(30);
-		var surface2 = new g.Surface(320, 320);
+		var surface2 = new mock.Surface(320, 320);
 		tile.tileChips = surface2;
 		tile.invalidate();
 		expect(tile._tilesInRow).toBe(20);
@@ -113,7 +113,7 @@ describe("Tile", function() {
 	it("render use _drawnTileData", function(){
 		jasmine.addMatchers(require("./lib/customMatchers"));
 		var runtime = skeletonRuntime();
-		var surface = new g.Surface(20, 10);
+		var surface = new mock.Surface(20, 10);
 		var tileData = [[0,0,0],[0,0,0]];
 		var tile = new Tile({
 			scene: runtime.scene,
@@ -141,7 +141,7 @@ describe("Tile", function() {
 	it("render use commonArea", function(){
 		jasmine.addMatchers(require("./lib/customMatchers"));
 		var runtime = skeletonRuntime();
-		var surface = new g.Surface(20, 10);
+		var surface = new mock.Surface(20, 10);
 		var tileData = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
 		var tile = new Tile({
 			scene: runtime.scene,
