@@ -1,9 +1,10 @@
 {
   "name": "akashic-tile-example-ts",
-  "version": "2.0.0-beta.0",
+  "version": "1.2.0",
   "private": true,
   "description": "",
   "scripts": {
+    "prepublish": "npm run build:tsc",
     "build": "npm run build:tsc && akashic update asset script -q",
     "build:tsc": "tsc",
     "lint": "tslint src/**/*.ts",
@@ -16,10 +17,10 @@
   "devDependencies": {
     "@akashic/akashic-engine": "~3.0.0-beta.33",
     "@types/node": "6.0.46",
-    "istanbul": "^0.3.2",
     "jasmine": "^2.1.1",
-    "tslint": "~5.4.3",
-    "typescript": "^3.8.3"
+    "istanbul": "^0.3.2",
+    "typescript": "^3.8.3",
+    "tslint": "~5.4.3"
   },
   "dependencies": {
     "@akashic-extension/akashic-tile": "~3.0.0-beta.1",

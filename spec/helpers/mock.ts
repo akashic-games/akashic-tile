@@ -548,6 +548,10 @@ export class SurfaceAtlas implements g.SurfaceAtlas {
 	getAccessScore(): number {
 		return 0;
 	}
+
+	reset(): void {
+		//
+	}
 }
 
 export class ResourceFactory implements g.ResourceFactory {
@@ -652,8 +656,8 @@ export class ResourceFactory implements g.ResourceFactory {
 export class GameHandlerSet implements g.GameHandlerSet {
 	raiseTick(_events?: any[]): void {}
 	raiseEvent(_event: any): void {}
-	addEventFilter(_func: (pevs: any[]) => any[], _handleEmpty?: boolean): void {}
-	removeEventFilter(_func: (pevs: any[]) => any[]): void {}
+	addEventFilter(_func: g.EventFilter, _handleEmpty?: boolean): void {}
+	removeEventFilter(_func: g.EventFilter): void {}
 	removeAllEventFilters(): void {}
 	changeSceneMode(_mode: g.SceneMode): void {}
 	shouldSaveSnapshot(): boolean {

@@ -4,7 +4,7 @@ var game = g.game;
 export function sampleScene3() {
 	var scene = new g.Scene({
 		game: game,
-		assetIds: ["map", "frame", "right", "bw"]
+		assetIds: ["right", "bw"]
 	});
 	scene.loaded.add(function() {
 		var tileArray: any[] = [];
@@ -14,7 +14,7 @@ export function sampleScene3() {
 				tileArray[i].push(0);
 			}
 		}
-		var mapAsset = <g.ImageAsset>scene.assets["bw"];
+		var mapAsset = scene.asset.getImageById("bw");
 		var tile = new Tile({
 			scene: scene,
 			src: mapAsset,
@@ -27,7 +27,6 @@ export function sampleScene3() {
 			var arr = tile.tileData;
 			for (var i = 0; i < 80; ++i) {
 				for (var j = 0; j < 80; ++j) {
-					var t = arr[i][j];
 					if (i + j === game.age % 80) {
 						arr[i][j] = 1;
 					}else {
@@ -40,7 +39,7 @@ export function sampleScene3() {
 
 		var prev = new g.Sprite({
 			scene: scene,
-			src: <g.ImageAsset>scene.assets["right"]
+			src: scene.asset.getImageById("right")
 		});
 		prev.x = game.width - 20;
 		prev.y = game.height - 20;
