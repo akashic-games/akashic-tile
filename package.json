@@ -1,6 +1,6 @@
 {
   "name": "@akashic-extension/akashic-tile",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0",
   "description": "Tilemap library for Akashic Engine",
   "main": "lib/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "author": "DWANGO Co., Ltd.",
   "license": "MIT",
   "devDependencies": {
-    "@akashic/akashic-engine": "~3.0.0-beta.33",
+    "@akashic/akashic-engine": "~3.0.0",
     "@types/node": "6.0.46",
     "rimraf": "^2.6.1",
     "jasmine": "~2.8.0",
