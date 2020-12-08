@@ -434,7 +434,7 @@ class AudioAsset extends Asset implements g.AudioAsset {
 	}
 
 	stop(): void {
-		//
+		// nothing to do
 	}
 
 	inUse(): boolean {
@@ -526,7 +526,7 @@ export class SurfaceAtlas implements g.SurfaceAtlas {
 	}
 
 	_updateUsedRectangleAreaSize(_slot: g.SurfaceAtlasSlot): void {
-		//
+		// nothing to do
 	}
 
 	addSurface(_surface: g.Surface, _offsetX: number, _offsetY: number, _width: number, _height: number): g.SurfaceAtlasSlot {
@@ -550,7 +550,7 @@ export class SurfaceAtlas implements g.SurfaceAtlas {
 	}
 
 	reset(): void {
-		//
+		// nothing to do
 	}
 }
 
@@ -654,16 +654,30 @@ export class ResourceFactory implements g.ResourceFactory {
 }
 
 export class GameHandlerSet implements g.GameHandlerSet {
-	raiseTick(_events?: any[]): void {}
-	raiseEvent(_event: any): void {}
-	addEventFilter(_func: g.EventFilter, _handleEmpty?: boolean): void {}
-	removeEventFilter(_func: g.EventFilter): void {}
-	removeAllEventFilters(): void {}
-	changeSceneMode(_mode: g.SceneMode): void {}
+	raiseTick(_events?: any[]): void {
+		// nothing to do
+	}
+	raiseEvent(_event: any): void {
+		// nothing to do
+	}
+	addEventFilter(_func: g.EventFilter, _handleEmpty?: boolean): void {
+		// nothing to do
+	}
+	removeEventFilter(_func: g.EventFilter): void {
+		// nothing to do
+	}
+	removeAllEventFilters(): void {
+		// nothing to do
+	}
+	changeSceneMode(_mode: g.SceneMode): void {
+		// nothing to do
+	}
 	shouldSaveSnapshot(): boolean {
 		return false;
 	}
-	saveSnapshot(_frame: number, _snapshot: any, _randGenSer: any, _timestamp?: number): void {}
+	saveSnapshot(_frame: number, _snapshot: any, _randGenSer: any, _timestamp?: number): void {
+		// nothing to do
+	}
 	getInstanceType(): "active" | "passive" {
 		return "passive";
 	}
@@ -704,7 +718,7 @@ export class Game extends g.Game {
 	}
 
 	saveSnapshot(snapshot: any): void {
-		// do nothing.
+		// nothing to do.
 	}
 
 	addEventFilter(filter: g.EventFilter): void {
