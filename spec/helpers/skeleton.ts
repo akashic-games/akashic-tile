@@ -6,7 +6,7 @@ function skeletonRuntime(gameConfiguration?: g.GameConfiguration) {
 	var game = new mock.Game(gameConfiguration);
 	var scene = new g.Scene({ game });
 	game.pushScene(scene);
-	game._handleSceneChanged();
+	game._flushPostTickTasks();
 	return {
 		game: game,
 		scene: scene
