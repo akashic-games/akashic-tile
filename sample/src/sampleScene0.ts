@@ -22,12 +22,12 @@ export function sampleScene0() {
 
 		// tile
 		var size = 3;
-		var tileImage = <g.ImageAsset>scene.assets["partial_transparent"];
+		var tileImage = scene.asset.getImageById("partial_transparent");
 		var tileArray: number[][] = [];
 		for (var i = 0; i < size; ++i) {
 			tileArray[i] = [];
 			for (var j = 0; j < size; ++j) {
-				tileArray[i].push(game.random.get(0, 2));
+				tileArray[i].push(Math.floor(3 * game.random.generate()));
 			}
 		}
 
@@ -46,7 +46,7 @@ export function sampleScene0() {
 		scene.pointUpCapture.add(function () {
 			for (var i = 0; i < size; ++i) {
 				for (var j = 0; j < size; ++j) {
-					tile.tileData[i][j] = game.random.get(0, 2);
+					tile.tileData[i][j] = Math.floor(3 * game.random.generate());
 				}
 			}
 			tile.invalidate();
@@ -54,7 +54,7 @@ export function sampleScene0() {
 
 		var next = new g.Sprite({
 			scene: scene,
-			src: <g.ImageAsset>scene.assets["right"]
+			src: scene.asset.getImageById("right")
 		});
 		next.x = game.width - 20;
 		next.y = game.height - 20;
@@ -68,4 +68,3 @@ export function sampleScene0() {
 	});
 	return scene;
 };
-

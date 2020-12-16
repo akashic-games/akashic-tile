@@ -19,12 +19,12 @@ export function sampleScene2() {
 		scene.append(rect);
 
 		// tile
-		var mapAsset = <g.ImageAsset>scene.assets["map"];
+		var mapAsset = scene.asset.getImageById("map");
 		var tileArray: number[][] = [];
 		for (var i = 0; i < 50; ++i) {
 			tileArray[i] = [];
 			for (var j = 0; j < 50; ++j) {
-				tileArray[i].push(game.random.get(0, 1));
+				tileArray[i].push(Math.floor(2 * game.random.generate()));
 			}
 		}
 		var tile = new Tile({
@@ -79,7 +79,7 @@ export function sampleScene2() {
 		}, tile);
 
 		// frame
-		var frameAsset = <g.ImageAsset>scene.assets["frame"];
+		var frameAsset = scene.asset.getImageById("frame");
 		var frame = new g.Sprite({
 			scene: scene,
 			src: frameAsset
@@ -90,7 +90,7 @@ export function sampleScene2() {
 
 		var next = new g.Sprite({
 			scene: scene,
-			src: <g.ImageAsset>scene.assets["right"]
+			src: scene.asset.getImageById("right")
 		});
 		next.x = game.width - 20;
 		next.y = game.height - 20;

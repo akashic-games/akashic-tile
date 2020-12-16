@@ -57,7 +57,7 @@ class Tile extends g.CacheableE {
 		this.tileWidth = param.tileWidth;
 		this.tileHeight = param.tileHeight;
 		this.tileData = param.tileData;
-		this.tileChips = g.Util.asSurface(param.src);
+		this.tileChips = g.SurfaceUtil.asSurface(param.src);
 
 		this.height = this.tileHeight * this.tileData.length;
 		this.width = this.tileWidth * this.tileData[0].length;
@@ -144,9 +144,9 @@ class Tile extends g.CacheableE {
 					}
 				}
 
-				renderer.setCompositeOperation(g.CompositeOperation.DestinationOut);
+				renderer.setCompositeOperation("destination-out");
 				renderer.fillRect(dx, dy, this.tileWidth, this.tileHeight, "silver"); // DestinationOutなので色はなんでも可
-				renderer.setCompositeOperation(g.CompositeOperation.SourceOver);
+				renderer.setCompositeOperation("source-over");
 				renderer.drawImage(
 					this.tileChips,
 					tileX,

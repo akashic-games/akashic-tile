@@ -1,14 +1,16 @@
-import g = require("../../node_modules/@akashic/akashic-engine/lib/main.node");
-export class Renderer extends g.Renderer {
-	constructor() {
-		super();
-		this.methodCallHistoryWithParams = [];
-	}
-
+export class Renderer implements g.Renderer {
 	methodCallHistoryWithParams: {
 		methodName: string;
 		params?: {}
 	}[];
+
+	constructor() {
+		this.methodCallHistoryWithParams = [];
+	}
+
+	begin(): void {
+		// nothing to do
+	}
 
 	clearMethodCallHistory(): void {
 		this.methodCallHistoryWithParams = [];
@@ -36,8 +38,8 @@ export class Renderer extends g.Renderer {
 		return params;
 	}
 
-	drawImage(surface: Surface, offsetX: number, offsetY: number, width: number, height: number,
-			canvasOffsetX: number, canvasOffsetY: number): void {
+	drawImage(surface: g.Surface, offsetX: number, offsetY: number, width: number, height: number,
+		canvasOffsetX: number, canvasOffsetY: number): void {
 		this.methodCallHistoryWithParams.push({
 			methodName: "drawImage",
 			params: {
@@ -80,7 +82,7 @@ export class Renderer extends g.Renderer {
 		});
 	}
 
-	setCompositeOperation(operation: g.CompositeOperation): void {
+	setCompositeOperation(operation: g.CompositeOperationString): void {
 		this.methodCallHistoryWithParams.push({
 			methodName: "setCompositeOperation",
 			params: {
@@ -135,7 +137,7 @@ export class Renderer extends g.Renderer {
 	}
 
 	drawSystemText(text: string, x: number, y: number, maxWidth: number, fontSize: number,
-			textAlign: g.TextAlign, textBaseline: g.TextBaseline, textColor: string, fontFamily: g.FontFamily,
+			textAlign: g.TextAlign, textBaseline: string, textColor: string, fontFamily: g.FontFamily,
 			strokeWidth: number, strokeColor: string, strokeOnly: boolean): void {
 		this.methodCallHistoryWithParams.push({
 			methodName: "drawSystemText",
@@ -169,13 +171,66 @@ export class Renderer extends g.Renderer {
 			params: { opacity }
 		});
 	}
+
+	isSupportedShaderProgram(): boolean {
+		return false;
+	}
+
+	setShaderProgram(_shaderProgram: g.ShaderProgram | null): void {
+		// nothing to do
+	}
+
+	_getImageData(_sx: number, _sy: number, _sw: number, _sh: number): any {
+		return {};
+	}
+
+	_putImageData(
+		_imageData: ImageData,
+		_dx: number,
+		_dy: number,
+		_dirtyX?: number,
+		_dirtyY?: number,
+		_dirtyWidth?: number,
+		_dirtyHeight?: number
+	): void {
+		// nothing to do
+	}
+
+	end(): void {
+		// nothing to do
+	}
 }
 
-class Surface extends g.Surface {
-	constructor(width: number, height: number, drawable?: any) {
-		super(width, height, drawable);
+export class Surface implements g.Surface {
+	width: number;
+	height: number;
+	isDynamic: boolean;
+	onAnimationStart: g.Trigger<void>;
+	onAnimationStop: g.Trigger<void>;
+	animatingStarted: g.Trigger<void>;
+	animatingStopped: g.Trigger<void>;
+	_drawable: any;
+	_destroyed: boolean;
+	createdRenderer: Renderer;
+
+	constructor(width: number, height: number, drawable?: any, isDynamic?: boolean) {
+		this.width = width;
+		this.height = height;
+		this._drawable = drawable;
+		this.isDynamic = isDynamic;
+		this.onAnimationStart = new g.Trigger<void>();
+		this.onAnimationStop = new g.Trigger<void>();
+		this.animatingStarted = new g.Trigger<void>();
+		this.animatingStopped = new g.Trigger<void>();
 	}
-	createdRenderer: g.Renderer;
+
+	destroy(): void {
+		this._destroyed = true;
+	}
+
+	destroyed(): boolean {
+		return !!this._destroyed;
+	}
 
 	renderer(): g.Renderer {
 		var r = new Renderer();
@@ -216,11 +271,55 @@ class LoadFailureController {
 	}
 }
 
-export class ImageAsset extends g.ImageAsset {
+export abstract class Asset implements g.Asset {
+	type: string;
+	id: string;
+	path: string;
+	originalPath: string;
+	onDestroyed: g.Trigger<g.Asset>;
+
+	constructor(id: string, path: string) {
+		this.id = id;
+		this.originalPath = path;
+		this.path = this._assetPathFilter(path);
+		this.onDestroyed = new g.Trigger<g.Asset>();
+	}
+
+	destroy(): void {
+		this.onDestroyed.fire(this);
+		this.id = undefined;
+		this.originalPath = undefined;
+		this.path = undefined;
+		this.onDestroyed.destroy();
+		this.onDestroyed = undefined;
+	}
+
+	destroyed(): boolean {
+		return this.id === undefined;
+	}
+
+	inUse(): boolean {
+		return false;
+	}
+
+	abstract _load(loader: g.AssetLoadHandler): void;
+
+	_assetPathFilter(path: string): string {
+		return path;
+	}
+}
+
+export class ImageAsset extends Asset implements g.ImageAsset {
+	type: "image" = "image";
+	width: number;
+	height: number;
+	hint: g.ImageAssetHint;
 	_failureController: LoadFailureController;
 
 	constructor(necessaryRetryCount: number, id: string, assetPath: string, width: number, height: number) {
-		super(id, assetPath, width, height);
+		super(id, assetPath);
+		this.width = width;
+		this.height = height;
 		this._failureController = new LoadFailureController(necessaryRetryCount);
 	}
 
@@ -235,6 +334,10 @@ export class ImageAsset extends g.ImageAsset {
 
 	asSurface(): g.Surface {
 		return new Surface(0, 0);
+	}
+
+	initialize(hint: g.ImageAssetHint): void {
+		this.hint = hint;
 	}
 }
 
@@ -272,12 +375,12 @@ export class DelayedImageAsset extends ImageAsset implements DelayedAsset {
 		}
 	}
 
-	_onAssetError(asset: g.Asset, error: g.AssetLoadError): void {
+	_onAssetError(_asset: g.Asset, _error: g.AssetLoadError): void {
 		this._isError = true;
 		this._loadingResult = arguments;
 		this._flushDelayed();
 	}
-	_onAssetLoad(asset: g.Asset): void {
+	_onAssetLoad(_asset: g.Asset): void {
 		this._isError = false;
 		this._loadingResult = arguments;
 		this._flushDelayed();
@@ -297,12 +400,23 @@ export class DelayedImageAsset extends ImageAsset implements DelayedAsset {
 	}
 }
 
-class AudioAsset extends g.AudioAsset {
+class AudioAsset extends Asset implements g.AudioAsset {
+	type: "audio" = "audio";
+	data: any;
+	duration: number;
+	loop: boolean;
+	hint: g.AudioAssetHint;
+	_system: g.AudioSystem;
 	_failureController: LoadFailureController;
 
 	constructor(necessaryRetryCount: number, id: string, assetPath: string, duration: number,
 	            system: g.AudioSystem, loop: boolean, hint: g.AudioAssetHint) {
-		super(id, assetPath, duration, system, loop, hint);
+		super(id, assetPath);
+		this.duration = duration;
+		this.loop = loop;
+		this.hint = hint;
+		this._system = system;
+		this.data = undefined;
 		this._failureController = new LoadFailureController(necessaryRetryCount);
 	}
 
@@ -314,9 +428,23 @@ class AudioAsset extends g.AudioAsset {
 			}, 0);
 		}
 	}
+
+	play(): g.AudioPlayer {
+		return this._system.createPlayer();
+	}
+
+	stop(): void {
+		// nothing to do
+	}
+
+	inUse(): boolean {
+		return this._system.findPlayers(this).length > 0;
+	}
 }
 
-class TextAsset extends g.TextAsset {
+class TextAsset extends Asset implements g.TextAsset {
+	type: "text" = "text";
+	data: string;
 	game: g.Game;
 	_failureController: LoadFailureController;
 
@@ -329,8 +457,8 @@ class TextAsset extends g.TextAsset {
 	_load(loader: g.AssetLoadHandler): void {
 		if (this._failureController.tryLoad(this, loader)) {
 			setTimeout(() => {
-				if ((<ResourceFactory>this.game.resourceFactory).scriptContents.hasOwnProperty(this.path)) {
-					this.data = (<ResourceFactory>this.game.resourceFactory).scriptContents[this.path];
+				if ((this.game.resourceFactory as ResourceFactory).scriptContents.hasOwnProperty(this.path)) {
+					this.data = (this.game.resourceFactory as ResourceFactory).scriptContents[this.path];
 				} else {
 					this.data = "";
 				}
@@ -341,7 +469,9 @@ class TextAsset extends g.TextAsset {
 	}
 }
 
-class ScriptAsset extends g.ScriptAsset {
+class ScriptAsset extends Asset implements g.ScriptAsset {
+	type: "script" = "script";
+	script: string;
 	game: g.Game;
 	_failureController: LoadFailureController;
 
@@ -360,8 +490,8 @@ class ScriptAsset extends g.ScriptAsset {
 		}
 	}
 
-	execute(env: g.ScriptAssetExecuteEnvironment): any {
-		if (!(<ResourceFactory>this.game.resourceFactory).scriptContents.hasOwnProperty(env.module.filename)) {
+	execute(env: g.ScriptAssetRuntimeValue): any {
+		if (!(this.game.resourceFactory as ResourceFactory).scriptContents.hasOwnProperty(env.module.filename)) {
 			// 特にスクリプトの内容指定がないケース:
 			// ScriptAssetは任意の値を返してよいが、シーンを記述したスクリプトは
 			// シーンを返す関数を返すことを期待するのでここでは関数を返しておく
@@ -370,7 +500,7 @@ class ScriptAsset extends g.ScriptAsset {
 		} else {
 			var prefix = "(function(exports, require, module, __filename, __dirname) {";
 			var suffix = "})(g.module.exports, g.module.require, g.module, g.filename, g.dirname);";
-			var content = (<ResourceFactory>this.game.resourceFactory).scriptContents[env.module.filename];
+			var content = (this.game.resourceFactory as ResourceFactory).scriptContents[env.module.filename];
 			var f = new Function("g", prefix + content + suffix);
 			f(env);
 			return env.module.exports;
@@ -378,7 +508,53 @@ class ScriptAsset extends g.ScriptAsset {
 	}
 }
 
-export class ResourceFactory extends g.ResourceFactory {
+export class SurfaceAtlas implements g.SurfaceAtlas {
+	_surface: g.Surface;
+	_accessScore: number;
+	_emptySurfaceAtlasSlotHead: g.SurfaceAtlasSlot;
+	_usedRectangleAreaSize: g.CommonSize;
+
+	constructor(surface: g.Surface) {
+		this._surface = surface;
+		this._accessScore = 0;
+		this._emptySurfaceAtlasSlotHead = new g.SurfaceAtlasSlot(0, 0, this._surface.width, this._surface.height);
+		this._usedRectangleAreaSize = { width: 0, height: 0 };
+	}
+
+	_acquireSurfaceAtlasSlot(_width: number, _height: number): g.SurfaceAtlasSlot | null {
+		return null;
+	}
+
+	_updateUsedRectangleAreaSize(_slot: g.SurfaceAtlasSlot): void {
+		// nothing to do
+	}
+
+	addSurface(_surface: g.Surface, _offsetX: number, _offsetY: number, _width: number, _height: number): g.SurfaceAtlasSlot {
+		return this._emptySurfaceAtlasSlotHead;
+	}
+
+	getAtlasUsedSize(): g.CommonSize {
+		return this._usedRectangleAreaSize;
+	}
+
+	destroy(): void {
+		this._surface.destroy();
+	}
+
+	destroyed(): boolean {
+		return this._surface.destroyed();
+	}
+
+	getAccessScore(): number {
+		return 0;
+	}
+
+	reset(): void {
+		// nothing to do
+	}
+}
+
+export class ResourceFactory implements g.ResourceFactory {
 	game: g.Game;
 	scriptContents: {[key: string]: string};
 
@@ -391,7 +567,6 @@ export class ResourceFactory extends g.ResourceFactory {
 	_delayedAssets: DelayedAsset[];
 
 	constructor() {
-		super();
 		this.scriptContents = {};
 		this.createsDelayedAsset = false;
 		this._necessaryRetryCount = 0;
@@ -399,14 +574,14 @@ export class ResourceFactory extends g.ResourceFactory {
 		this.game = null;
 	}
 
-	init(game: g.Game) {
+	init(game: g.Game): void {
 		this.game = game;
 	}
 
 	// func が呼び出されている間だけ this._necessaryRetryCount を変更する。
 	// func() とその呼び出し先で生成されたアセットは、指定回数だけロードに失敗したのち成功する。
 	// -1を指定した場合、ロードは retriable が偽に設定された AssetLoadFatalError で失敗する。
-	withNecessaryRetryCount(necessaryRetryCount: number, func: () => void) {
+	withNecessaryRetryCount(necessaryRetryCount: number, func: () => void): void {
 		var originalValue = this._necessaryRetryCount;
 		try {
 			this._necessaryRetryCount = necessaryRetryCount;
@@ -435,8 +610,8 @@ export class ResourceFactory extends g.ResourceFactory {
 		}
 	}
 
-	createVideoAsset(id: string, assetPath: string, width: number, height: number,
-	                 system: g.VideoSystem, loop: boolean, useRealSize: boolean): g.VideoAsset {
+	createVideoAsset(_id: string, _assetPath: string, _width: number, _height: number,
+	                 _system: g.VideoSystem, _loop: boolean, _useRealSize: boolean): g.VideoAsset {
 		throw new Error("not implemented");
 	}
 
@@ -444,7 +619,7 @@ export class ResourceFactory extends g.ResourceFactory {
 		return new AudioAsset(this._necessaryRetryCount, id, assetPath, duration, system, loop, hint);
 	}
 
-	createAudioPlayer(system: g.AudioSystem): g.AudioPlayer {
+	createAudioPlayer(_system: g.AudioSystem): g.AudioPlayer {
 		throw new Error("not implemented");
 	}
 
@@ -460,10 +635,54 @@ export class ResourceFactory extends g.ResourceFactory {
 		return new Surface(width, height);
 	}
 
-	createGlyphFactory(fontFamily: g.FontFamily | string | (g.FontFamily | string)[],
-	                   fontSize: number, baselineHeight?: number, fontColor?: string,
-	                   strokeWidth?: number, strokeColor?: string, strokeOnly?: boolean, fontWeight?: g.FontWeight): g.GlyphFactory {
+	createGlyphFactory(
+		_fontFamily: string | string[],
+		_fontSize: number,
+		_baselineHeight?: number,
+		_fontColor?: string,
+		_strokeWidth?: number,
+		_strokeColor?: string,
+		_strokeOnly?: boolean,
+		_fontWeight?: g.FontWeightString
+	): g.GlyphFactory {
 		throw new Error("not implemented");
+	}
+
+	createSurfaceAtlas(width: number, height: number): g.SurfaceAtlas {
+		return new g.SurfaceAtlas(this.createSurface(width, height));
+	}
+}
+
+export class GameHandlerSet implements g.GameHandlerSet {
+	raiseTick(_events?: any[]): void {
+		// nothing to do
+	}
+	raiseEvent(_event: any): void {
+		// nothing to do
+	}
+	addEventFilter(_func: g.EventFilter, _handleEmpty?: boolean): void {
+		// nothing to do
+	}
+	removeEventFilter(_func: g.EventFilter): void {
+		// nothing to do
+	}
+	removeAllEventFilters(): void {
+		// nothing to do
+	}
+	changeSceneMode(_mode: g.SceneMode): void {
+		// nothing to do
+	}
+	shouldSaveSnapshot(): boolean {
+		return false;
+	}
+	saveSnapshot(_frame: number, _snapshot: any, _randGenSer: any, _timestamp?: number): void {
+		// nothing to do
+	}
+	getInstanceType(): "active" | "passive" {
+		return "passive";
+	}
+	getCurrentTime(): number {
+		return 0;
 	}
 }
 
@@ -472,9 +691,10 @@ export class Game extends g.Game {
 	terminatedGame: boolean;
 	raisedEvents: g.Event[];
 
-	constructor(gameConfiguration: g.GameConfiguration, assetBase?: string, selfId?: string) {
+	constructor(configuration: g.GameConfiguration, assetBase?: string, selfId?: string) {
 		const resourceFactory = new ResourceFactory();
-		super(gameConfiguration, resourceFactory, assetBase, selfId);
+		const handlerSet = new GameHandlerSet();
+		super({ engineModule: g, configuration, resourceFactory, handlerSet, assetBase, selfId });
 		resourceFactory.init(this);
 		this.leftGame = false;
 		this.terminatedGame = false;
@@ -498,7 +718,7 @@ export class Game extends g.Game {
 	}
 
 	saveSnapshot(snapshot: any): void {
-		// do nothing.
+		// nothing to do.
 	}
 
 	addEventFilter(filter: g.EventFilter): void {
@@ -511,6 +731,14 @@ export class Game extends g.Game {
 
 	raiseTick(events?: g.Event[]): void {
 		throw new Error("not implemented");
+	}
+
+	getCurrentTime(): number {
+		return 0;
+	}
+
+	isActiveInstance(): boolean {
+		return false;
 	}
 }
 

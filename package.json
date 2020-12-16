@@ -1,6 +1,6 @@
 {
   "name": "@akashic-extension/akashic-tile",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "Tilemap library for Akashic Engine",
   "main": "lib/index.js",
   "scripts": {
@@ -18,17 +18,17 @@
   "author": "DWANGO Co., Ltd.",
   "license": "MIT",
   "devDependencies": {
+    "@akashic/akashic-engine": "~3.0.0",
     "@types/node": "6.0.46",
     "rimraf": "^2.6.1",
-    "@akashic/akashic-engine": "~2.0.0",
     "jasmine": "~2.8.0",
     "remark-cli": "~2.0.0",
     "remark-lint": "~5.0.1",
     "mdast-lint": "^1.1.1",
     "istanbul": "^0.3.2",
-    "typedoc": "^0.8.0",
+    "typedoc": "^0.16.11",
     "tslint": "~5.4.3",
-    "typescript": "^2.1.6"
+    "typescript": "^3.8.3"
   },
   "typings": "lib/index.d.ts",
   "files": [
