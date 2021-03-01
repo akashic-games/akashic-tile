@@ -4,7 +4,7 @@
   "description": "Tilemap library for Akashic Engine",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run build && npm run doc",
+    "prepare": "npm run build && npm run doc",
     "clean": "rimraf tmp && rimraf lib",
     "build": "npm run clean & tsc",
     "doc": "typedoc --out ./doc --gaID UA-162208211-1",
@@ -41,6 +41,7 @@
     "url": "https://github.com/akashic-games/akashic-tile.git"
   },
   "publishConfig": {
-    "@akashic-extension:registry": "https://registry.npmjs.org/"
+    "@akashic-extension:registry": "https://registry.npmjs.org/",
+    "tag": "for_ae2x"
   }
 }
