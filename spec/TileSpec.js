@@ -1,5 +1,5 @@
 global.g = require("@akashic/akashic-engine");
-var Tile = require("../lib/Tile");
+var Tile = require("../lib/Tile").Tile;
 
 describe("Tile", function() {
 	var mock = require("./lib/mock");

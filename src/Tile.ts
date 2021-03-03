@@ -1,9 +1,9 @@
-import TileParameterObject = require("./TileParameterObject");
+import {TileParameterObject} from "./TileParameterObject";
 
 /**
  * RPGのマップなどで利用される、マップチップとタイルデータによるパターン描画を行うエンティティ。
  */
-class Tile extends g.CacheableE {
+export class Tile extends g.CacheableE {
 	/**
 	 * マップチップ画像。
 	 * この値を変更した場合、 `this.invalidate()` が呼び出される必要がある。
@@ -184,5 +184,3 @@ class Tile extends g.CacheableE {
 		this._tilesInRow = Math.floor(this.tileChips.width / this.tileWidth);
 	}
 }
-
-export = Tile;
