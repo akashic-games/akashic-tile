@@ -1,2 +1,2 @@
-export import Tile = require("./Tile");
-export import TileParameterObject = require("./TileParameterObject");
+export { Tile } from "./Tile";
+export { TileParameterObject } from "./TileParameterObject";

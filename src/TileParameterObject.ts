@@ -1,4 +1,4 @@
-interface TileParameterObject extends g.CacheableEParameterObject {
+export interface TileParameterObject extends g.CacheableEParameterObject {
 	/**
 	 * マップチップ画像。
 	 */
@@ -32,5 +32,3 @@ interface TileParameterObject extends g.CacheableEParameterObject {
 	 */
 	redrawArea?: g.CommonArea;
 }
-
-export = TileParameterObject;
