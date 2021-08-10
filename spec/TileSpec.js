@@ -166,4 +166,31 @@ describe("Tile", function() {
 		expect(c).toBe(4);
 	});
 
+	it("render not use redrawArea", function () {
+		jasmine.addMatchers(require("./lib/customMatchers"));
+		var runtime = skeletonRuntime();
+		var surface = new mock.Surface(20, 10);
+		var tileData = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+
+		var tile = new Tile({
+			scene: runtime.scene,
+			src: surface,
+			tileWidth: 10,
+			tileHeight: 10,
+			tileData: tileData
+		});
+		tile._drawnTileData = [[-1, -1, -1, -1], [-1, -1, -1, -1], [-1, -1, -1, -1], [-1, -1, -1, -1]];
+
+		var r = new mock.Renderer();
+		tile.invalidate();
+		tile.renderCache(r);
+		var c = r.methodCallParamsHistory("drawImage").length;
+		expect(c).toBe(16);
+
+		tile.redrawArea = null;
+		tile.invalidate();
+		tile.renderCache(r);
+		var c = r.methodCallParamsHistory("drawImage").length;
+		expect(c).toBe(16);
+	});
 });
