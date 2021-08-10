@@ -137,7 +137,7 @@ export class Tile extends g.CacheableE {
 				var dx = this.tileWidth * x;
 				var dy = this.tileHeight * y;
 
-				if (this.redrawArea !== undefined) {
+				if (this.redrawArea) {
 					if (dx + this.tileWidth < this.redrawArea.x || dx >= this.redrawArea.x + this.redrawArea.width ||
 						dy + this.tileHeight < this.redrawArea.y || dy >= this.redrawArea.y + this.redrawArea.height) {
 						continue;
