@@ -1,6 +1,6 @@
 {
   "name": "@akashic-extension/akashic-tile",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Tilemap library for Akashic Engine",
   "main": "lib/index.js",
   "scripts": {

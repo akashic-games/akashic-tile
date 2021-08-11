@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.0.1
+* `Tile#renderCache()` 内の条件分岐箇所のバグを修正
+
 ## 3.0.0
 * akashic-engine@3.0.0 に追従
 
