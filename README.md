@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/akashic-games/akashic-tile/blob/master/img/akashic.png">
+<img src="https://raw.githubusercontent.com/akashic-games/akashic-tile/master/img/akashic.png">
 </p>
 
 # akashic-tile
@@ -46,7 +46,7 @@ var at = require("@akashic-extension/akashic-tile");
 で利用してください。
 詳細な利用方法については、以下を参照してください。
 
-* [APIリファレンス](https://akashic-games.github.io/reference/akashic-tile/index.html)。
+* [APIリファレンス](https://akashic-games.github.io/akashic-tile/api/index.html)。
 * このリポジトリ同梱の[サンプルコード](https://github.com/akashic-games/akashic-tile/tree/master/sample)
 Akashic Engineの詳細な利用方法については、 [公式ページ](https://akashic-games.github.io/) を参照してください。
 
