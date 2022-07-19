@@ -1,4 +1,4 @@
-import {TileParameterObject} from "./TileParameterObject";
+import type {TileParameterObject} from "./TileParameterObject";
 
 /**
  * RPGのマップなどで利用される、マップチップとタイルデータによるパターン描画を行うエンティティ。
@@ -77,7 +77,7 @@ export class Tile extends g.CacheableE {
 			this._renderedCamera = camera;
 		}
 		if (!(this.state & g.EntityStateFlags.Cached)) {
-			var isNew = !this._cache || this._cache.width < Math.ceil(this.width) || this._cache.height < Math.ceil(this.height);
+			const isNew = !this._cache || this._cache.width < Math.ceil(this.width) || this._cache.height < Math.ceil(this.height);
 			if (isNew) {
 				if (this._cache && !this._cache.destroyed()) {
 					this._cache.destroy();
@@ -86,9 +86,9 @@ export class Tile extends g.CacheableE {
 				this._renderer = this._cache.renderer();
 
 				this._drawnTileData = [];
-				for (var y = 0; y < this.tileData.length; ++y) {
+				for (let y = 0; y < this.tileData.length; ++y) {
 					this._drawnTileData[y] = [];
-					for (var x = 0; x < this.tileData[y].length; ++x) {
+					for (let x = 0; x < this.tileData[y].length; ++x) {
 						this._drawnTileData[y][x] = -1;
 					}
 				}
@@ -117,10 +117,10 @@ export class Tile extends g.CacheableE {
 		}
 		renderer.save();
 
-		for (var y = 0; y < this.tileData.length; ++y) {
-			var row = this.tileData[y];
-			for (var x = 0; x < row.length; ++x) {
-				var tile = row[x];
+		for (let y = 0; y < this.tileData.length; ++y) {
+			const row = this.tileData[y];
+			for (let x = 0; x < row.length; ++x) {
+				const tile = row[x];
 				if (tile < 0) {
 					continue;
 				}
@@ -131,11 +131,11 @@ export class Tile extends g.CacheableE {
 					}
 				}
 
-				var tileX = this.tileWidth * (tile % this._tilesInRow);
-				var tileY = this.tileHeight * Math.floor(tile / this._tilesInRow);
+				const tileX = this.tileWidth * (tile % this._tilesInRow);
+				const tileY = this.tileHeight * Math.floor(tile / this._tilesInRow);
 
-				var dx = this.tileWidth * x;
-				var dy = this.tileHeight * y;
+				const dx = this.tileWidth * x;
+				const dy = this.tileHeight * y;
 
 				if (this.redrawArea) {
 					if (dx + this.tileWidth < this.redrawArea.x || dx >= this.redrawArea.x + this.redrawArea.width ||
